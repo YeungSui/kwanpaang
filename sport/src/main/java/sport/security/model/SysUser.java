@@ -1,8 +1,9 @@
-package sport.fwansoccer.system.model;
+package sport.security.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SysUser {
+public class SysUser implements Serializable{
 	private List<SysRole> roleList = null;
 	private String username = "";
 	private String password = "";

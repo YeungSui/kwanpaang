@@ -1,4 +1,6 @@
-package core.web.security.config;
+package sport.security.config;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,24 +11,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import core.web.security.config.GlobalAuthorityStrategy;
 import core.web.security.service.SysUserDetailsService;
+import sport.security.model.SysPermission;
+import sport.security.service.SysPermissionService;
 
 @Configuration
 public class LoginSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SysUserDetailsService sysUserDetailsService;
+	@Autowired
+	private SysPermissionService sysPermissionService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/","index").permitAll().anyRequest().authenticated()
-		.antMatchers("/admin","/admin/**/*").hasRole("ADMIN") // 管理页面权限控制
-		.antMatchers("/non-free/**/*").hasRole("MEMBER") // 付费内容权限控制
-		.and()
-		.formLogin()
-		.loginPage("/login")
-		.failureUrl("/login-error.html").permitAll()
-		.and()
-		.logout()
-		.logoutSuccessUrl("/index");
+		GlobalAuthorityStrategy strategy = new GlobalAuthorityStrategy();
+		List<SysPermission> permissions = sysPermissionService.findAll();
+		for(SysPermission permission:permissions) {
+			strategy.addUrlAccessRole(permission.getCode(), permission.getUrlPattern());
+		}
+		strategy.configureByDefault(http);
 	}
 	@Override
 	protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {

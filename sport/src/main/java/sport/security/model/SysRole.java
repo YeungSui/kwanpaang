@@ -1,4 +1,4 @@
-package sport.fwansoccer.system.model;
+package sport.security.model;
 
 import java.util.ArrayList;
 import java.util.List;

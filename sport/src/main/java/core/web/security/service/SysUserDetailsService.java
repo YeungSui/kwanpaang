@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import sport.fwansoccer.system.model.SysPermission;
-import sport.fwansoccer.system.model.SysRole;
-import sport.fwansoccer.system.model.SysUser;
-import sport.fwansoccer.system.service.SysUserService;
+import sport.security.model.SysPermission;
+import sport.security.model.SysRole;
+import sport.security.model.SysUser;
+import sport.security.service.SysUserService;
 
 public class SysUserDetailsService implements UserDetailsService {
 	@Autowired
@@ -35,5 +35,4 @@ public class SysUserDetailsService implements UserDetailsService {
 		}
 		return new User(sysUser.getUsername(), sysUser.getPassword(), authorities);
 	}
-
 }

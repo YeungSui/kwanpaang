@@ -1,6 +1,8 @@
-package sport.fwansoccer.system.model;
+package sport.security.model;
 
-public class SysPermission  {
+import java.io.Serializable;
+
+public class SysPermission implements Serializable {
 	String code = "";
 	String name = "";
 	String urlPattern = "";
